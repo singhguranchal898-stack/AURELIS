@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURELIS — Time, Refined.</title>
+<meta name="description" content="AURELIS — precision engineering meets timeless design. A mechanical watch crafted without compromise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1 !important;transform:none !important;}</style></noscript>
+<style>
+/* ============================================================
+   AURELIS — Time, Refined.
+   Single-file luxury watch landing page
+   ============================================================ */
+
+:root{
+  --void:      #050505;
+  --ink:       #F4F1EA;
+  --muted:     #B8B8B4;
+  --silver:    #8F8F8A;
+  --gold:      #C8A96B;
+  --graphite:  #171717;
+  --pill:      #F4F1EA;
+  --pill-ink:  #050505;
+
+  --ease-out:  cubic-bezier(.22, 1, .36, 1);
+  --header-x:  75px;
+  --header-y:  28px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  line-height:1.4;
+}
+
+::selection{ background:rgba(200,169,107,.28); color:var(--ink); }
+
+img,svg,video{ display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+
+:focus-visible{
+  outline:1px solid var(--gold);
+  outline-offset:4px;
+  border-radius:2px;
+}
+
+/* ============================ HEADER ============================ */
+
+.site-header{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:80;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:var(--header-y) var(--header-x) 0;
+  pointer-events:none;
+}
+.site-header > *{ pointer-events:auto; }
+
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  animation:riseIn .8s var(--ease-out) both;
+}
+.brand svg{ width:38px; height:38px; }
+.brand-word{
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.42em;
+  text-indent:.42em; /* optically re-centers tracked caps */
+  color:var(--muted);
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.main-nav{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:46px;
+  animation:navIn .8s var(--ease-out) .08s both;
+}
+.main-nav a{
+  font-size:16.5px;
+  font-weight:400;
+  letter-spacing:.045em;
+  color:var(--muted);
+  transition:color .4s var(--ease-out);
+  position:relative;
+  padding:6px 0;
+}
+.main-nav a::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  width:100%; height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s var(--ease-out);
+}
+.main-nav a:hover{ color:var(--ink); }
+.main-nav a:hover::after{ transform:scaleX(1); }
+
+.header-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:164px;
+  height:49px;
+  border-radius:999px;
+  background:var(--pill);
+  color:var(--pill-ink);
+  font-size:15.5px;
+  font-weight:500;
+  letter-spacing:.03em;
+  transition:transform .5s var(--ease-out), background .4s var(--ease-out);
+  animation:riseIn .8s var(--ease-out) .16s both;
+}
+.header-cta:hover{ transform:translateY(-2px); background:#FFFFFF; }
+
+/* Mobile menu toggle (hidden on desktop) */
+.menu-toggle{
+  display:none;
+  width:52px; height:52px;
+  border-radius:999px;
+  background:rgba(244,241,234,.06);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(244,241,234,.14);
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  z-index:120;
+  transition:background .4s var(--ease-out);
+}
+.menu-toggle:hover{ background:rgba(244,241,234,.12); }
+.menu-toggle span{
+  position:absolute;
+  left:50%; top:50%;
+  width:20px; height:1.5px;
+  background:var(--ink);
+  border-radius:2px;
+  transition:transform .5s var(--ease-out);
+}
+.menu-toggle span:nth-child(1){ transform:translate(-50%,-50%) translateY(-4px); }
+.menu-toggle span:nth-child(2){ transform:translate(-50%,-50%) translateY(4px); }
+body.menu-open .menu-toggle span:nth-child(1){ transform:translate(-50%,-50%) rotate(45deg); }
+body.menu-open .menu-toggle span:nth-child(2){ transform:translate(-50%,-50%) rotate(-45deg); }
+
+/* ============================ MOBILE MENU ============================ */
+
+.mobile-menu{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(5,5,5,.72);
+  -webkit-backdrop-filter:blur(26px) saturate(1.1);
+  backdrop-filter:blur(26px) saturate(1.1);
+  display:flex;
+  flex-direction:column;
+  padding:120px 34px 48px;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .55s var(--ease-out), visibility 0s linear .55s;
+}
+body.menu-open .mobile-menu{
+  opacity:1;
+  visibility:visible;
+  transition:opacity .55s var(--ease-out);
+}
+.mobile-menu .menu-label{
+  font-size:12px;
+  letter-spacing:.5em;
+  text-transform:uppercase;
+  color:var(--silver);
+  margin-bottom:34px;
+}
+.mobile-menu nav{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.mobile-menu nav a{
+  font-size:clamp(34px, 9vw, 46px);
+  font-weight:400;
+  letter-spacing:-.015em;
+  color:var(--ink);
+  padding:10px 0;
+  border-bottom:1px solid rgba(244,241,234,.08);
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .6s var(--ease-out), transform .6s var(--ease-out), color .3s;
+}
+.mobile-menu nav a:hover{ color:var(--gold); }
+body.menu-open .mobile-menu nav a{
+  opacity:1;
+  transform:none;
+}
+body.menu-open .mobile-menu nav a:nth-child(1){ transition-delay:.08s; }
+body.menu-open .mobile-menu nav a:nth-child(2){ transition-delay:.15s; }
+body.menu-open .mobile-menu nav a:nth-child(3){ transition-delay:.22s; }
+body.menu-open .mobile-menu nav a:nth-child(4){ transition-delay:.29s; }
+.mobile-menu .menu-cta{
+  margin-top:auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:54px;
+  border-radius:999px;
+  background:var(--pill);
+  color:var(--pill-ink);
+  font-size:16px;
+  font-weight:500;
+  letter-spacing:.03em;
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .6s var(--ease-out) .38s, transform .6s var(--ease-out) .38s;
+}
+body.menu-open .mobile-menu .menu-cta{ opacity:1; transform:none; }
+
+body.menu-open{ overflow:hidden; }
+body.menu-open .site-header{ z-index:130; }
+
+/* ============================ HERO ============================ */
+
+.hero{
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.plate-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-3;
+}
+
+/* restrained readability fades only */
+.hero::before{ /* bottom fade */
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(
+    to bottom,
+    rgba(5,5,5,0) 70%,
+    rgba(5,5,5,.22) 78%,
+    rgba(5,5,5,.55) 86%,
+    rgba(5,5,5,.85) 94%,
+    #050505 100%
+  );
+}
+.hero::after{ /* subtle left fade for headline legibility */
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(
+    to right,
+    rgba(5,5,5,.52) 0%,
+    rgba(5,5,5,.22) 30%,
+    rgba(5,5,5,0) 55%
+  );
+}
+
+.hero-inner{
+  position:relative;
+  z-index:2;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:120px var(--header-x) 120px;
+  max-width:100%;
+}
+
+.hero-copy{ max-width:640px; }
+
+.hero-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  font-size:12px;
+  letter-spacing:.46em;
+  text-transform:uppercase;
+  color:var(--silver);
+  margin-bottom:34px;
+  animation:riseIn .9s var(--ease-out) .22s both;
+}
+.hero-eyebrow::before{
+  content:"";
+  width:44px; height:1px;
+  background:var(--gold);
+  opacity:.85;
+}
+
+.hero-title{
+  font-size:clamp(58px, 5vw, 78px);
+  line-height:1.08;
+  font-weight:400;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.hero-title .line{
+  display:block;
+  overflow:hidden;
+}
+.hero-title .line > span{
+  display:inline-block;
+  transform:translateY(112%);
+  animation:lineUp .9s var(--ease-out) forwards;
+}
+.hero-title .line:nth-child(1) > span{ animation-delay:.30s; }
+.hero-title .line:nth-child(2) > span{ animation-delay:.42s; }
+.hero-title em{ font-style:normal; }
+
+.hero-sub{
+  margin-top:30px;
+  max-width:530px;
+  font-size:clamp(18px, 1.25vw, 20px);
+  line-height:1.45;
+  font-weight:400;
+  color:var(--muted);
+  animation:riseIn .9s var(--ease-out) .55s both;
+}
+
+.hero-actions{
+  margin-top:46px;
+  display:flex;
+  align-items:center;
+  gap:38px;
+  animation:riseIn .9s var(--ease-out) .68s both;
+}
+
+.btn-primary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:50px;
+  padding:0 34px;
+  min-width:192px;
+  border-radius:999px;
+  background:var(--pill);
+  color:var(--pill-ink);
+  font-size:15.5px;
+  font-weight:500;
+  letter-spacing:.025em;
+  transition:transform .5s var(--ease-out), background .4s var(--ease-out);
+}
+.btn-primary:hover{ transform:translateY(-2px); background:#FFFFFF; }
+
+.btn-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:15.5px;
+  font-weight:500;
+  letter-spacing:.03em;
+  color:var(--muted);
+  transition:color .4s var(--ease-out);
+  padding:8px 0;
+}
+.btn-secondary .arrow{
+  display:inline-block;
+  transition:transform .5s var(--ease-out);
+  font-weight:400;
+}
+.btn-secondary:hover{ color:var(--ink); }
+.btn-secondary:hover .arrow{ transform:translateX(7px); }
+
+/* ============================ WATCH STAGE ============================ */
+
+.watch-stage{
+  position:absolute;
+  z-index:1;
+  right:6vw;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(41vw, 560px);
+  animation:watchIn 1.2s var(--ease-out) .55s both;
+}
+
+.watch-float{
+  animation:watchFloat 11s ease-in-out infinite;
+}
+.watch-tilt{
+  transform:rotate(-7deg);
+  transform-origin:50% 46%;
+}
+.watch-svg{ width:100%; height:auto; }
+
+/* live hands are positioned by JS via CSS transforms */
+.hand-hour   { transform-origin:240px 440px; }
+.hand-minute { transform-origin:240px 440px; }
+.hand-second { transform-origin:240px 547px; }
+
+/* crystal light sweep */
+.crystal-sheen{
+  animation:sheen 9s var(--ease-out) infinite;
+  transform-origin:240px 440px;
+}
+
+/* editorial hover callouts */
+.callout{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  opacity:0;
+  transition:opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  pointer-events:none;
+  transform:translateY(6px);
+  white-space:nowrap;
+}
+.watch-stage:hover .callout,
+.watch-stage:focus-visible .callout{
+  opacity:1;
+  transform:translateY(0);
+}
+.callout .num{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.2em;
+  color:var(--gold);
+}
+.callout .lbl{
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.callout .rule{
+  height:1px;
+  width:64px;
+  background:rgba(184,184,180,.4);
+}
+.callout.c1{ top:18%;  right:103%; }
+.callout.c2{ top:50%;  right:103%; transition-delay:.15s; }
+.callout.c3{ top:76%;  right:103%; transition-delay:.25s; }
+
+/* ============================ CREDIBILITY STRIP ============================ */
+
+.cred-strip{
+  position:absolute;
+  z-index:2;
+  left:0; right:0; bottom:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(28px, 4.5vw, 72px);
+  padding:0 var(--header-x) 40px;
+  animation:riseIn 1.1s var(--ease-out) .85s both;
+}
+.cred-strip span{
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:.34em;
+  text-indent:.34em;
+  text-transform:uppercase;
+  color:var(--silver);
+  opacity:.85;
+  white-space:nowrap;
+}
+.cred-strip i{
+  width:3px; height:3px;
+  border-radius:50%;
+  background:var(--gold);
+  opacity:.6;
+  flex:none;
+}
+
+/* ============================ EDITORIAL SECTIONS ============================ */
+
+.editorial{
+  position:relative;
+  padding:18vh var(--header-x);
+  max-width:1560px;
+  margin:0 auto;
+}
+
+.sec-head{
+  display:flex;
+  align-items:baseline;
+  gap:26px;
+  margin-bottom:9vh;
+}
+.sec-head .idx{
+  font-size:12px;
+  letter-spacing:.4em;
+  color:var(--gold);
+  font-weight:500;
+}
+.sec-head .name{
+  font-size:12px;
+  letter-spacing:.46em;
+  text-transform:uppercase;
+  color:var(--silver);
+  font-weight:500;
+}
+.sec-head .line{
+  flex:1;
+  height:1px;
+  background:rgba(244,241,234,.1);
+  align-self:center;
+}
+
+.sec-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(48px, 7vw, 120px);
+  align-items:center;
+}
+
+.sec-title{
+  font-size:clamp(34px, 3.1vw, 50px);
+  font-weight:400;
+  letter-spacing:-.015em;
+  line-height:1.14;
+  color:var(--ink);
+  max-width:12em;
+}
+.sec-body{
+  margin-top:26px;
+  font-size:17px;
+  line-height:1.65;
+  color:var(--muted);
+  max-width:440px;
+  font-weight:400;
+}
+.sec-link{
+  margin-top:38px;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--ink);
+  padding-bottom:8px;
+  border-bottom:1px solid rgba(200,169,107,.5);
+  transition:border-color .4s var(--ease-out), color .4s var(--ease-out);
+}
+.sec-link:hover{ color:var(--gold); border-color:var(--gold); }
+
+.spec-list{
+  margin-top:44px;
+  border-top:1px solid rgba(244,241,234,.1);
+  max-width:440px;
+}
+.spec-list div{
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid rgba(244,241,234,.1);
+  font-size:14px;
+}
+.spec-list dt{ color:var(--silver); letter-spacing:.12em; text-transform:uppercase; font-size:11.5px; letter-spacing:.22em; }
+.spec-list dd{ color:var(--ink); font-weight:500; }
+
+/* editorial watch figure */
+.macro-stage{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+.macro-stage svg{ width:min(100%, 440px); height:auto; }
+.macro-stage svg.profile-svg{ width:min(100%, 580px); }
+
+.macro-frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/5;
+  background:radial-gradient(120% 90% at 30% 20%, #1C1B19 0%, #0B0B0A 55%, #050505 100%);
+  overflow:hidden;
+}
+.macro-frame svg{ position:absolute; inset:0; width:100%; height:100%; }
+.macro-caption{
+  position:absolute;
+  left:28px; bottom:24px;
+  font-size:11px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--silver);
+}
+
+/* heritage — pure typography */
+.sec-heritage{ text-align:center; max-width:1100px; }
+.sec-heritage .sec-head{ justify-content:center; }
+.sec-heritage .sec-head .line{ display:none; }
+.heritage-title{
+  font-size:clamp(40px, 4.6vw, 72px);
+  font-weight:300;
+  letter-spacing:-.02em;
+  line-height:1.12;
+  color:var(--ink);
+}
+.heritage-title em{ font-style:normal; color:var(--gold); }
+.heritage-body{
+  margin:34px auto 0;
+  max-width:520px;
+  font-size:17.5px;
+  line-height:1.7;
+  color:var(--muted);
+}
+.heritage-years{
+  margin-top:64px;
+  display:flex;
+  justify-content:center;
+  gap:clamp(30px,6vw,90px);
+}
+.heritage-years div{ text-align:center; }
+.heritage-years b{
+  display:block;
+  font-weight:400;
+  font-size:clamp(26px,2.4vw,36px);
+  color:var(--ink);
+  letter-spacing:-.01em;
+}
+.heritage-years small{
+  display:block;
+  margin-top:8px;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--silver);
+}
+
+/* reveal on scroll */
+.reveal{
+  opacity:0;
+  transform:translateY(34px);
+  transition:opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.reveal.in{ opacity:1; transform:none; }
+
+/* ============================ JOURNAL SIGNUP ============================ */
+
+.sec-journal{ text-align:center; max-width:760px; }
+.sec-journal .sec-head{ justify-content:center; }
+.sec-journal .sec-head .line{ display:none; }
+
+.journal-lede{
+  margin:0 auto;
+  max-width:480px;
+  font-size:17.5px;
+  line-height:1.7;
+  color:var(--muted);
+}
+
+.journal-form{
+  margin:52px auto 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:28px;
+  flex-wrap:wrap;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  width:230px;
+}
+.field label{
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--silver);
+  margin-bottom:12px;
+}
+.field input{
+  width:100%;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid rgba(244,241,234,.22);
+  color:var(--ink);
+  font-family:'Manrope', sans-serif;
+  font-size:16px;
+  font-weight:400;
+  padding:6px 2px 12px;
+  transition:border-color .4s var(--ease-out);
+}
+.field input::placeholder{ color:#5C5C58; }
+.field input:focus{ outline:none; border-color:var(--gold); }
+.field input:focus-visible{ outline:none; border-color:var(--gold); }
+
+.journal-submit{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:50px;
+  padding:0 34px;
+  min-width:172px;
+  border-radius:999px;
+  background:var(--pill);
+  color:var(--pill-ink);
+  font-size:15.5px;
+  font-weight:500;
+  letter-spacing:.025em;
+  transition:transform .5s var(--ease-out), background .4s var(--ease-out), opacity .3s;
+}
+.journal-submit:hover{ transform:translateY(-2px); background:#FFFFFF; }
+.journal-submit:disabled{ opacity:.5; cursor:default; transform:none; }
+
+.journal-status{
+  margin-top:22px;
+  min-height:1.4em;
+  font-size:12.5px;
+  letter-spacing:.1em;
+  color:var(--silver);
+}
+.journal-status[data-state="ok"]{ color:var(--gold); }
+.journal-status[data-state="error"]{ color:#D98C7A; }
+
+/* ============================ FOOTER ============================ */
+
+.site-footer{
+  border-top:1px solid rgba(244,241,234,.08);
+  padding:56px var(--header-x) 48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  flex-wrap:wrap;
+}
+.site-footer .f-brand{
+  display:flex; align-items:center; gap:14px;
+  font-size:12px; letter-spacing:.4em; text-transform:uppercase; color:var(--muted);
+}
+.site-footer .f-brand svg{ width:26px; height:26px; }
+.site-footer .f-note{
+  font-size:12px;
+  letter-spacing:.18em;
+  color:var(--silver);
+  text-transform:uppercase;
+}
+.site-footer .f-copy{
+  font-size:12px;
+  color:#8F8F8A;
+  letter-spacing:.1em;
+}
+
+/* ============================ ANIMATIONS ============================ */
+
+@keyframes riseIn{
+  from{ opacity:0; transform:translateY(26px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+@keyframes navIn{
+  from{ opacity:0; transform:translateX(-50%) translateY(26px); }
+  to  { opacity:1; transform:translateX(-50%) translateY(0); }
+}
+@keyframes lineUp{
+  from{ transform:translateY(112%); }
+  to  { transform:translateY(0); }
+}
+@keyframes watchIn{
+  from{ opacity:0; transform:translateY(-50%) scale(.965); }
+  to  { opacity:1; transform:translateY(-50%) scale(1); }
+}
+@keyframes watchFloat{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%    { transform:translateY(-13px) rotate(.45deg); }
+}
+@keyframes sheen{
+  0%   { transform:translateX(-190px) rotate(18deg); opacity:0; }
+  10%  { opacity:.55; }
+  30%  { transform:translateX(190px) rotate(18deg); opacity:0; }
+  100% { transform:translateX(190px) rotate(18deg); opacity:0; }
+}
+
+/* ============================ RESPONSIVE ============================ */
+
+@media (max-width: 1120px){
+  :root{ --header-x:48px; }
+  .main-nav{ gap:34px; }
+  .main-nav a{ font-size:15.5px; }
+  .watch-stage{ width:min(45vw, 470px); right:3vw; }
+  .callout .rule{ width:40px; }
+}
+
+.m-br{ display:none; }
+
+@media (max-width: 900px){
+  :root{ --header-x:32px; --header-y:22px; }
+  .main-nav, .header-cta{ display:none; }
+  .menu-toggle{ display:inline-flex; }
+  .brand-word{ display:none; }
+  .m-br{ display:inline; }
+
+  /* vertical editorial flow: brand > headline > copy > watch > CTAs > strip */
+  .hero{
+    min-height:auto;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    padding:118px 28px 0;
+  }
+  .hero::after{ background:linear-gradient(to bottom, rgba(5,5,5,.35) 0%, rgba(5,5,5,0) 30%); }
+  .hero-inner{ display:contents; }
+  .hero-copy{ display:contents; }
+
+  .hero-eyebrow{ order:1; margin-bottom:26px; }
+  .hero-title{ order:2; font-size:clamp(28px, 7.6vw, 40px); }
+  .hero-sub{ order:3; font-size:16.5px; max-width:94%; margin-top:24px; }
+
+  .watch-stage{
+    order:4;
+    position:relative;
+    right:auto; top:auto;
+    transform:none;
+    width:80vw;
+    max-width:400px;
+    margin:38px auto 4px;
+    animation:watchInM 1.2s var(--ease-out) .5s both;
+  }
+  .callout{ display:none; }
+
+  .hero-actions{ order:5; margin-top:30px; flex-direction:column; align-items:flex-start; gap:22px; }
+
+  .cred-strip{
+    order:6;
+    position:relative;
+    margin-top:46px;
+    padding:0 0 46px;
+    flex-wrap:wrap;
+    gap:16px 24px;
+  }
+  .cred-strip i{ display:none; }
+  .cred-strip span{ font-size:10.5px; white-space:normal; text-align:center; }
+
+  .editorial{ padding:12vh 28px; }
+  .sec-grid{ grid-template-columns:1fr; gap:52px; }
+  .sec-grid .flip{ order:-1; }
+  .site-footer{ flex-direction:column; text-align:center; padding:48px 28px; }
+}
+
+@keyframes watchInM{
+  from{ opacity:0; transform:scale(.965); }
+  to  { opacity:1; transform:scale(1); }
+}
+
+@media (min-width: 901px) and (max-width: 1120px){
+  .hero-title{ font-size:clamp(44px, 5.4vw, 60px); }
+  .hero-sub{ font-size:17px; max-width:440px; }
+}
+
+/* ============================ REDUCED MOTION ============================ */
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001s !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001s !important;
+  }
+  .watch-float{ animation:none; }
+  .crystal-sheen{ display:none; }
+  .hero-title .line > span{ transform:none; }
+  .reveal{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ HEADER ============================ -->
+<header class="site-header">
+  <a class="brand" href="#top" aria-label="AURELIS — home">
+    <!-- AURELIS mark: abstract A — watch hands / crown geometry -->
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="markMetal" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#E6E6E2"/>
+          <stop offset=".5" stop-color="#9A9A94"/>
+          <stop offset="1" stop-color="#C9C9C4"/>
+        </linearGradient>
+      </defs>
+      <!-- crown facet -->
+      <path d="M32 3 L37.5 11.5 H26.5 Z" fill="url(#markMetal)"/>
+      <!-- A / hands -->
+      <path d="M32 12 L51 58 H43.4 L32 30.5 L20.6 58 H13 Z" fill="url(#markMetal)"/>
+      <!-- crossbar -->
+      <rect x="24" y="45.5" width="16" height="3" fill="url(#markMetal)"/>
+      <!-- balance dot -->
+      <circle cx="32" cy="21.5" r="2.1" fill="#C8A96B"/>
+    </svg>
+    <span class="brand-word">Aurelis</span>
+  </a>
+
+  <nav class="main-nav" aria-label="Primary">
+    <a href="#collection">Collection</a>
+    <a href="#craft">Craft</a>
+    <a href="#heritage">Heritage</a>
+    <a href="#journal">Journal</a>
+  </nav>
+
+  <a class="header-cta" href="#collection">Explore</a>
+
+  <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<!-- ============================ MOBILE MENU ============================ -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="menu-label">Menu</div>
+  <nav aria-label="Mobile">
+    <a href="#collection">Collection</a>
+    <a href="#craft">Craft</a>
+    <a href="#heritage">Heritage</a>
+    <a href="#journal">Journal</a>
+  </nav>
+  <a class="menu-cta" href="#collection">Explore the Collection</a>
+</div>
+
+<main id="top">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" aria-label="AURELIS — Time, Refined">
+
+  <video
+    class="plate-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true">
+    <source
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4"
+      type="video/mp4">
+  </video>
+
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">Geneva · Est. 1962</p>
+      <h1 class="hero-title">
+        <span class="line"><span>Time, <em>Refined.</em></span></span>
+        <span class="line"><span>Crafted Without<br class="m-br"> Compromise.</span></span>
+      </h1>
+      <p class="hero-sub">
+        Precision engineering meets timeless design in a watch created
+        for those who measure moments differently.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#collection">Explore the Collection</a>
+        <a class="btn-secondary" href="#craft">Discover the Craft <span class="arrow">&#8594;</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ THE WATCH ============================ -->
+  <div class="watch-stage" role="img" aria-label="AURELIS Reference 1962 — 41mm automatic watch in grade 5 titanium with charcoal dial and dark leather strap" tabindex="0">
+    <div class="watch-float">
+      <div class="watch-tilt">
+        <svg class="watch-svg" viewBox="0 0 480 880" fill="none" aria-hidden="true">
+          <defs>
+            <!-- brushed titanium case -->
+            <linearGradient id="caseGrad" x1="90" y1="290" x2="390" y2="590" gradientUnits="userSpaceOnUse">
+              <stop offset="0"   stop-color="#D4D4CF"/>
+              <stop offset=".22" stop-color="#9E9E99"/>
+              <stop offset=".45" stop-color="#62625D"/>
+              <stop offset=".58" stop-color="#484844"/>
+              <stop offset=".74" stop-color="#86867F"/>
+              <stop offset="1"   stop-color="#C2C2BC"/>
+            </linearGradient>
+            <!-- polished bezel -->
+            <linearGradient id="bezelGrad" x1="104" y1="304" x2="376" y2="576" gradientUnits="userSpaceOnUse">
+              <stop offset="0"   stop-color="#F4F4F1"/>
+              <stop offset=".35" stop-color="#A9A9A4"/>
+              <stop offset=".55" stop-color="#6E6E6A"/>
+              <stop offset=".8"  stop-color="#C6C6C1"/>
+              <stop offset="1"   stop-color="#8B8B87"/>
+            </linearGradient>
+            <!-- charcoal dial -->
+            <radialGradient id="dialGrad" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(222 420) rotate(52) scale(150)">
+              <stop offset="0"   stop-color="#2B2B29"/>
+              <stop offset=".55" stop-color="#151514"/>
+              <stop offset="1"   stop-color="#080808"/>
+            </radialGradient>
+            <!-- champagne gold -->
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#E9D5A4"/>
+              <stop offset=".5" stop-color="#C8A96B"/>
+              <stop offset="1" stop-color="#8F7140"/>
+            </linearGradient>
+            <!-- steel hands -->
+            <linearGradient id="steelGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#F2F2EF"/>
+              <stop offset=".5" stop-color="#B9B9B4"/>
+              <stop offset="1" stop-color="#7E7E7A"/>
+            </linearGradient>
+            <!-- leather -->
+            <linearGradient id="strapGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0"  stop-color="#282219"/>
+              <stop offset=".5" stop-color="#1A1610"/>
+              <stop offset="1"  stop-color="#12100B"/>
+            </linearGradient>
+            <!-- crystal reflection -->
+            <radialGradient id="crystalGrad" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(198 396) rotate(48) scale(152)">
+              <stop offset="0"   stop-color="#FFFFFF" stop-opacity=".10"/>
+              <stop offset=".35" stop-color="#FFFFFF" stop-opacity=".035"/>
+              <stop offset=".6"  stop-color="#FFFFFF" stop-opacity="0"/>
+              <stop offset="1"   stop-color="#FFFFFF" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="sheenGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0"  stop-color="#FFFFFF" stop-opacity="0"/>
+              <stop offset=".5" stop-color="#FFFFFF" stop-opacity=".16"/>
+              <stop offset="1"  stop-color="#FFFFFF" stop-opacity="0"/>
+            </linearGradient>
+            <radialGradient id="subdialGrad" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(236 543) scale(30)">
+              <stop offset="0" stop-color="#1E1E1C"/>
+              <stop offset="1" stop-color="#0B0B0A"/>
+            </radialGradient>
+            <clipPath id="dialClip"><circle cx="240" cy="440" r="132"/></clipPath>
+            <radialGradient id="caseHalo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(244 468) scale(216 238)">
+              <stop offset="0" stop-color="#000000" stop-opacity=".55"/>
+              <stop offset=".68" stop-color="#000000" stop-opacity=".24"/>
+              <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- soft grounding shadow behind the case -->
+          <ellipse cx="244" cy="468" rx="216" ry="238" fill="url(#caseHalo)"/>
+
+          <!-- ================= STRAP ================= -->
+          <path d="M160 -4 L320 -4 C324 120 327 236 331 330 L149 330 C153 236 156 120 160 -4 Z" fill="url(#strapGrad)"/>
+          <path d="M149 550 L331 550 C327 664 323 780 319 884 L161 884 C157 780 153 664 149 550 Z" fill="url(#strapGrad)"/>
+          <!-- stitching -->
+          <g stroke="#4E463A" stroke-width="2" stroke-dasharray="7 8" stroke-linecap="round" opacity=".75" fill="none">
+            <path d="M180 8 C177 130 175 240 173 322"/>
+            <path d="M300 8 C303 130 305 240 307 322"/>
+            <path d="M173 558 C175 664 177 780 180 872"/>
+            <path d="M307 558 C305 664 303 780 300 872"/>
+          </g>
+
+          <!-- ================= CASE ================= -->
+          <circle cx="240" cy="440" r="152" fill="url(#caseGrad)"/>
+          <!-- crown -->
+          <rect x="388" y="421" width="11" height="38" rx="4" fill="#8B8B87"/>
+          <rect x="396" y="416" width="21" height="48" rx="9" fill="url(#caseGrad)"/>
+          <path d="M401 424 V456 M407 424 V456 M413 424 V456" stroke="#6A6A66" stroke-width="1.6" opacity=".7"/>
+          <!-- case edge shadow -->
+          <circle cx="240" cy="440" r="152" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="2"/>
+
+          <!-- bezel -->
+          <circle cx="240" cy="440" r="141" fill="url(#bezelGrad)"/>
+          <circle cx="240" cy="440" r="141" fill="none" stroke="#FFFFFF" stroke-opacity=".35" stroke-width="1"/>
+          <circle cx="240" cy="440" r="134" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="1.5"/>
+
+          <!-- ================= DIAL ================= -->
+          <circle cx="240" cy="440" r="132" fill="url(#dialGrad)"/>
+          <!-- minute track -->
+          <circle cx="240" cy="440" r="126" fill="none" stroke="#3A3A37" stroke-width="1"/>
+          <circle cx="240" cy="440" r="118" fill="none" stroke="#2C2C2A" stroke-width="1"/>
+
+          <!-- indices (JS-free: hand-placed, champagne gold) -->
+          <g fill="url(#goldGrad)">
+            <!-- 12 double index -->
+            <rect x="235.5" y="316" width="3.4" height="26" rx="1.4"/>
+            <rect x="241.1" y="316" width="3.4" height="26" rx="1.4"/>
+            <!-- single batons -->
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(30 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(60 240 440)"/>
+            <!-- 3 replaced by date: skipped -->
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(120 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(150 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(210 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(240 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(300 240 440)"/>
+            <rect x="238.3" y="318" width="3.4" height="22" rx="1.4" transform="rotate(330 240 440)"/>
+          </g>
+
+          <!-- brand text -->
+          <text x="240" y="386" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="500" font-size="15" letter-spacing="6" fill="#F4F1EA">AURELIS</text>
+          <text x="240" y="404" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="400" font-size="8" letter-spacing="3.2" fill="#8F8F8A">GENEVE</text>
+          <text x="240" y="478" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="400" font-size="7.5" letter-spacing="2.6" fill="#8F8F8A">AUTOMATIC</text>
+
+          <!-- date aperture at 3 -->
+          <g>
+            <rect x="330" y="425" width="30" height="30" rx="3" fill="#0C0C0B" stroke="#3A332A" stroke-width="1"/>
+            <text id="dateNum" x="345" y="446" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="500" font-size="16" fill="#F4F1EA">10</text>
+          </g>
+
+          <!-- small seconds subdial at 6 -->
+          <g>
+            <circle cx="240" cy="547" r="31" fill="url(#subdialGrad)" stroke="#33332F" stroke-width="1"/>
+            <g stroke="#6E6E69" stroke-width="1">
+              <path d="M240 522 V528"/>
+              <path d="M240 566 V572"/>
+              <path d="M215 547 H221"/>
+              <path d="M259 547 H265"/>
+            </g>
+            <text x="240" y="590" text-anchor="middle" font-family="Manrope, sans-serif" font-size="6.5" letter-spacing="2" fill="#6E6E69">SMALL SECONDS</text>
+            <!-- running seconds hand (JS) -->
+            <g class="hand-second" id="handSecond">
+              <line x1="240" y1="559" x2="240" y2="526" stroke="#C8A96B" stroke-width="1.6"/>
+              <circle cx="240" cy="547" r="2.6" fill="#C8A96B"/>
+            </g>
+          </g>
+
+          <!-- ================= HANDS (JS-driven) ================= -->
+          <g class="hand-hour" id="handHour">
+            <path d="M240 452 L236.4 444 L238.2 372 H241.8 L243.6 444 Z" fill="url(#steelGrad)"/>
+          </g>
+          <g class="hand-minute" id="handMinute">
+            <path d="M240 456 L237.2 446 L238.8 336 H241.2 L242.8 446 Z" fill="url(#steelGrad)"/>
+          </g>
+          <circle cx="240" cy="440" r="6.4" fill="url(#steelGrad)"/>
+          <circle cx="240" cy="440" r="2.6" fill="#C8A96B"/>
+
+          <!-- ================= CRYSTAL ================= -->
+          <circle cx="240" cy="440" r="132" fill="url(#crystalGrad)"/>
+          <g clip-path="url(#dialClip)">
+            <rect class="crystal-sheen" x="120" y="270" width="90" height="340" fill="url(#sheenGrad)"/>
+            <!-- domed edge refraction -->
+            <circle cx="240" cy="440" r="131" fill="none" stroke="#FFFFFF" stroke-opacity=".08" stroke-width="2.5"/>
+          </g>
+          <!-- upper-left specular arc -->
+          <path d="M148 372 A108 108 0 0 1 236 333" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- editorial hover labels -->
+    <div class="callout c1" aria-hidden="true"><span class="num">01</span><span class="lbl">Sapphire Crystal</span><span class="rule"></span></div>
+    <div class="callout c2" aria-hidden="true"><span class="num">02</span><span class="lbl">Automatic Movement</span><span class="rule"></span></div>
+    <div class="callout c3" aria-hidden="true"><span class="num">03</span><span class="lbl">Grade 5 Titanium</span><span class="rule"></span></div>
+  </div>
+
+  <!-- ============================ CREDIBILITY STRIP ============================ -->
+  <div class="cred-strip" aria-label="Craftsmanship credentials">
+    <span>Swiss Engineered</span><i></i>
+    <span>Automatic Calibre</span><i></i>
+    <span>Sapphire Crystal</span><i></i>
+    <span>5 Year Warranty</span>
+  </div>
+</section>
+
+<!-- ============================ 01 — THE WATCH ============================ -->
+<section class="editorial" id="collection">
+  <div class="sec-head reveal">
+    <span class="idx">01</span>
+    <span class="name">The Watch</span>
+    <span class="line"></span>
+  </div>
+  <div class="sec-grid">
+    <div class="reveal">
+      <h2 class="sec-title">Engineered for every second.</h2>
+      <p class="sec-body">
+        Reference 1962 pairs a 41&nbsp;mm grade&nbsp;5 titanium case with our
+        in-house automatic calibre. A charcoal dial, champagne indices and a
+        domed sapphire crystal — nothing more than the moment requires.
+      </p>
+      <dl class="spec-list">
+        <div><dt>Case</dt><dd>41 mm · Grade 5 Titanium</dd></div>
+        <div><dt>Movement</dt><dd>Calibre A-62 · Automatic</dd></div>
+        <div><dt>Reserve</dt><dd>72 Hours</dd></div>
+        <div><dt>Crystal</dt><dd>Domed Sapphire</dd></div>
+        <div><dt>Strap</dt><dd>Hand-Stitched Calfskin</dd></div>
+      </dl>
+    </div>
+    <div class="macro-stage reveal">
+      <!-- case profile: domed sapphire, brushed band, crown -->
+      <svg class="profile-svg" viewBox="0 0 920 480" fill="none" role="img" aria-label="AURELIS Reference 1962 — case profile with domed sapphire crystal">
+        <defs>
+          <linearGradient id="bandGrad" x1="0" y1="196" x2="0" y2="268" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#D6D6D1"/>
+            <stop offset=".2" stop-color="#8F8F8A"/>
+            <stop offset=".52" stop-color="#454542"/>
+            <stop offset=".82" stop-color="#83837E"/>
+            <stop offset="1" stop-color="#BCBCB7"/>
+          </linearGradient>
+          <linearGradient id="bezelSide" x1="262" y1="142" x2="658" y2="188" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#E8E8E4"/>
+            <stop offset=".5" stop-color="#8B8B86"/>
+            <stop offset="1" stop-color="#C9C9C4"/>
+          </linearGradient>
+          <linearGradient id="crystalSide" x1="0" y1="92" x2="0" y2="150" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#FFFFFF" stop-opacity=".28"/>
+            <stop offset=".65" stop-color="#FFFFFF" stop-opacity=".06"/>
+            <stop offset="1" stop-color="#FFFFFF" stop-opacity=".02"/>
+          </linearGradient>
+          <linearGradient id="strapSide" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#211C14"/>
+            <stop offset="1" stop-color="#131009"/>
+          </linearGradient>
+          <radialGradient id="floorShadow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(460 402) scale(300 18)">
+            <stop offset="0" stop-color="#000000" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <ellipse cx="460" cy="402" rx="300" ry="18" fill="url(#floorShadow)"/>
+
+        <!-- strap tails wrapping away -->
+        <path d="M246 264 C170 296 96 348 34 420 L34 480 L156 480 C198 420 238 372 270 340 Z" fill="url(#strapSide)"/>
+        <path d="M674 264 C750 296 824 348 886 420 L886 480 L764 480 C722 420 682 372 650 340 Z" fill="url(#strapSide)"/>
+        <path d="M60 430 C120 368 178 326 240 296" stroke="#4E463A" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".6"/>
+        <path d="M860 430 C800 368 742 326 680 296" stroke="#4E463A" stroke-width="2" stroke-dasharray="6 8" fill="none" opacity=".6"/>
+
+        <!-- case back -->
+        <path d="M252 258 H668 C661 302 640 328 600 337 H320 C280 328 259 302 252 258 Z" fill="#363634"/>
+        <path d="M320 337 H600" stroke="#55554F" stroke-width="1" opacity=".6"/>
+
+        <!-- case band -->
+        <rect x="240" y="196" width="440" height="72" rx="18" fill="url(#bandGrad)"/>
+        <rect x="240" y="230" width="440" height="1.5" fill="#000000" opacity=".3"/>
+
+        <!-- dial edge -->
+        <rect x="254" y="186" width="412" height="12" rx="6" fill="#0A0A09"/>
+
+        <!-- bezel -->
+        <path d="M262 188 C270 160 300 146 342 142 H578 C620 146 650 160 658 188 Z" fill="url(#bezelSide)"/>
+
+        <!-- domed sapphire -->
+        <path d="M288 148 C322 108 382 92 460 92 C538 92 598 108 632 148 Z" fill="url(#crystalSide)" stroke="#FFFFFF" stroke-opacity=".2" stroke-width="1.5"/>
+        <path d="M312 138 C342 112 392 100 452 98" stroke="#FFFFFF" stroke-opacity=".42" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+        <!-- crown -->
+        <rect x="680" y="216" width="13" height="32" rx="5" fill="#83837E"/>
+        <rect x="691" y="210" width="27" height="44" rx="10" fill="url(#bandGrad)"/>
+        <path d="M697 218 V246 M704 218 V246 M711 218 V246" stroke="#565652" stroke-width="1.6"/>
+
+        <!-- engraved reference on band -->
+        <text x="460" y="239" text-anchor="middle" font-family="Manrope, sans-serif" font-size="11" letter-spacing="6" fill="#1D1D1B" opacity=".85">REF. 1962</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 02 — THE CRAFT ============================ -->
+<section class="editorial" id="craft">
+  <div class="sec-head reveal">
+    <span class="idx">02</span>
+    <span class="name">The Craft</span>
+    <span class="line"></span>
+  </div>
+  <div class="sec-grid">
+    <div class="macro-frame reveal" role="img" aria-label="Macro study of the AURELIS dial — champagne indices over charcoal brass">
+      <svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <radialGradient id="macroDial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 320) rotate(40) scale(700)">
+            <stop offset="0" stop-color="#262624"/>
+            <stop offset=".6" stop-color="#121211"/>
+            <stop offset="1" stop-color="#070707"/>
+          </radialGradient>
+          <linearGradient id="macroGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#EBD6A6"/>
+            <stop offset=".55" stop-color="#C8A96B"/>
+            <stop offset="1" stop-color="#8A6C3D"/>
+          </linearGradient>
+          <linearGradient id="macroSteel" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#F2F2EF"/>
+            <stop offset=".5" stop-color="#B9B9B4"/>
+            <stop offset="1" stop-color="#7E7E7A"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="1000" fill="url(#macroDial)"/>
+        <!-- oversized indices cropping through frame -->
+        <g fill="url(#macroGold)">
+          <rect x="-40" y="140" width="420" height="58" rx="10"/>
+          <rect x="520" y="430" width="360" height="58" rx="10"/>
+          <rect x="-80" y="760" width="460" height="58" rx="10"/>
+        </g>
+        <!-- minute hand passing through -->
+        <g transform="rotate(24 400 500)">
+          <path d="M400 940 L386 902 L392 180 H408 L414 902 Z" fill="url(#macroSteel)" opacity=".96"/>
+        </g>
+        <!-- engraved text -->
+        <text x="120" y="560" font-family="Manrope, sans-serif" font-weight="500" font-size="34" letter-spacing="16" fill="#F4F1EA" opacity=".92">AURELIS</text>
+        <text x="120" y="606" font-family="Manrope, sans-serif" font-size="17" letter-spacing="9" fill="#8F8F8A">CALIBRE A-62 · 72H</text>
+        <!-- specular sweep -->
+        <rect x="-200" y="0" width="260" height="1000" fill="#FFFFFF" opacity=".035" transform="rotate(18 400 500)"/>
+      </svg>
+      <span class="macro-caption">Dial · Charcoal Brass, Champagne Indices</span>
+    </div>
+    <div class="reveal">
+      <h2 class="sec-title">Precision lives in the details.</h2>
+      <p class="sec-body">
+        Two hundred and thirty-one components, assembled by a single
+        watchmaker. Each bridge is bevelled by hand, each wheel polished
+        until it disappears. What remains is only the measure of time.
+      </p>
+      <a class="sec-link" href="#collection">Inside the Calibre <span>&#8594;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 03 — HERITAGE ============================ -->
+<section class="editorial sec-heritage" id="heritage">
+  <div class="sec-head reveal">
+    <span class="idx">03</span>
+    <span class="name">Heritage</span>
+    <span class="line"></span>
+  </div>
+  <div class="reveal">
+    <h2 class="heritage-title">Built to outlast <em>the moment.</em></h2>
+    <p class="heritage-body">
+      Six decades. One atelier. We make few watches, slowly — instruments
+      intended to be inherited, not replaced.
+    </p>
+    <div class="heritage-years">
+      <div><b>1962</b><small>Founded, Geneva</small></div>
+      <div><b>62</b><small>Years of Calibres</small></div>
+      <div><b>1</b><small>Atelier</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 04 — THE JOURNAL ============================ -->
+<section class="editorial sec-journal" id="journal-signup">
+  <div class="sec-head reveal">
+    <span class="idx">04</span>
+    <span class="name">The Journal</span>
+    <span class="line"></span>
+  </div>
+  <div class="reveal">
+    <p class="journal-lede">Notes from the atelier, delivered rarely and only when there's something worth saying. Leave your name and email to be first to read Issue No. 1.</p>
+
+    <form class="journal-form" id="journalForm" novalidate>
+      <div class="field">
+        <label for="journalName">Name</label>
+        <input type="text" id="journalName" name="name" placeholder="Your name" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="journalEmail">Email</label>
+        <input type="email" id="journalEmail" name="email" placeholder="you@email.com" autocomplete="email" required>
+      </div>
+      <button type="submit" class="journal-submit" id="journalSubmit">Sign up</button>
+    </form>
+    <p class="journal-status" id="journalStatus" role="status" aria-live="polite"></p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="site-footer" id="journal">
+  <div class="f-brand">
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 3 L37.5 11.5 H26.5 Z" fill="#8F8F8A"/>
+      <path d="M32 12 L51 58 H43.4 L32 30.5 L20.6 58 H13 Z" fill="#8F8F8A"/>
+      <rect x="24" y="45.5" width="16" height="3" fill="#8F8F8A"/>
+      <circle cx="32" cy="21.5" r="2.1" fill="#C8A96B"/>
+    </svg>
+    <span>Aurelis</span>
+  </div>
+  <p class="f-note">The Journal — Notes from the atelier, Issue No. 1 forthcoming</p>
+  <p class="f-copy">&copy; 2026 Aurelis Gen&egrave;ve</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Live mechanical hands (smooth sweep) ---------- */
+  var hourEl   = document.getElementById("handHour");
+  var minuteEl = document.getElementById("handMinute");
+  var secondEl = document.getElementById("handSecond");
+  var dateEl   = document.getElementById("dateNum");
+
+  function setHands(){
+    var now = new Date();
+    var s = now.getSeconds() + now.getMilliseconds() / 1000;
+    var m = now.getMinutes() + s / 60;
+    var h = (now.getHours() % 12) + m / 60;
+    if (secondEl) secondEl.style.transform = "rotate(" + (s * 6) + "deg)";
+    if (minuteEl) minuteEl.style.transform = "rotate(" + (m * 6) + "deg)";
+    if (hourEl)   hourEl.style.transform   = "rotate(" + (h * 30) + "deg)";
+  }
+
+  if (dateEl) dateEl.textContent = String(new Date().getDate());
+
+  if (prefersReduced){
+    setHands(); /* static, accurate */
+  } else {
+    var tick = function(){ setHands(); requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }
+
+  /* ---------- Mobile menu ---------- */
+  var toggle = document.querySelector(".menu-toggle");
+  var menu   = document.getElementById("mobileMenu");
+
+  function closeMenu(){
+    document.body.classList.remove("menu-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+    menu.setAttribute("aria-hidden", "true");
+  }
+  function openMenu(){
+    document.body.classList.add("menu-open");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Close menu");
+    menu.setAttribute("aria-hidden", "false");
+  }
+
+  if (toggle){
+    toggle.addEventListener("click", function(){
+      document.body.classList.contains("menu-open") ? closeMenu() : openMenu();
+    });
+  }
+  if (menu){
+    menu.querySelectorAll("a").forEach(function(a){
+      a.addEventListener("click", closeMenu);
+    });
+  }
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && document.body.classList.contains("menu-open")) closeMenu();
+  });
+
+  /* ---------- Scroll reveal for editorial sections ---------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !prefersReduced){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---------- Journal signup -> Supabase ---------- */
+  var SUPABASE_URL = "https://tsddnnsbpqlqmwoqeutm.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_Sr7dsoIKjIf6pDvPP07Zrg_PyMLagsI";
+
+  var journalForm   = document.getElementById("journalForm");
+  var journalStatus = document.getElementById("journalStatus");
+  var journalSubmit = document.getElementById("journalSubmit");
+
+  if (journalForm){
+    journalForm.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      var name  = document.getElementById("journalName").value.trim();
+      var email = document.getElementById("journalEmail").value.trim();
+
+      if (!name || !email){
+        journalStatus.textContent = "Please add your name and email.";
+        journalStatus.setAttribute("data-state", "error");
+        return;
+      }
+
+      journalSubmit.disabled = true;
+      journalStatus.removeAttribute("data-state");
+      journalStatus.textContent = "Signing up…";
+
+      fetch(SUPABASE_URL + "/rest/v1/journal_signups", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + SUPABASE_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({ name: name, email: email })
+      })
+      .then(function(res){
+        if (!res.ok) throw new Error("request failed");
+        journalStatus.textContent = "You're on the list. Thank you.";
+        journalStatus.setAttribute("data-state", "ok");
+        journalForm.reset();
+      })
+      .catch(function(){
+        journalStatus.textContent = "Something went wrong — please try again.";
+        journalStatus.setAttribute("data-state", "error");
+      })
+      .finally(function(){
+        journalSubmit.disabled = false;
+      });
+    });
+  }
+
+  /* ---------- Keep the plate video playing gracefully ---------- */
+  var video = document.querySelector(".plate-video");
+  if (video){
+    var tryPlay = function(){ video.play().catch(function(){}); };
+    document.addEventListener("visibilitychange", function(){
+      if (!document.hidden) tryPlay();
+    });
+    tryPlay();
+  }
+})();
+</script>
+</body>
+</html>
